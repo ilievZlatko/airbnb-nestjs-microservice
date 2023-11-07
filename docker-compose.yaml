@@ -8,7 +8,7 @@ services:
     env_file:
       - ./apps/reservations/.env
     ports:
-      - '5000:5000'
+      - '4000:4000'
     volumes:
       - .:/usr/src/app
   auth:
@@ -20,7 +20,19 @@ services:
     env_file:
       - ./apps/auth/.env
     ports:
-      - '5001:5001'
+      - '4001:4001'
+    volumes:
+      - .:/usr/src/app
+  payments:
+    build:
+      context: .
+      dockerfile: ./apps/payments/Dockerfile
+      target: development
+    command: pnpm run start:dev payments
+    env_file:
+      - ./apps/payments/.env
+    ports:
+      - '4003:4003'
     volumes:
       - .:/usr/src/app
   mongo:

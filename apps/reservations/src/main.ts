@@ -10,7 +10,13 @@ async function bootstrap() {
   const app = await NestFactory.create(ReservationsModule);
   const configService = app.get(ConfigService);
 
-  app.connectMicroservice({ transport: Transport.TCP });
+  app.connectMicroservice({
+    transport: Transport.TCP,
+    options: {
+      host: '0.0.0.0',
+      port: configService.get('PORT'),
+    },
+  });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useLogger(app.get(Logger));
